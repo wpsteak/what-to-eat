@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>今天中午吃什麼？ - 互動決定器</title>
+    <title>今天中午吃什麼？</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
-        
+
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #f8fafc;
@@ -65,15 +66,22 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             align-items: center;
             justify-content: center;
             z-index: 50;
         }
 
         @keyframes confetti {
-            0% { transform: translateY(0) rotate(0); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         .confetti {
@@ -85,6 +93,7 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
     <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
@@ -104,7 +113,8 @@
             </div>
 
             <!-- Action Button -->
-            <button id="spinBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-lg transform transition active:scale-95 mb-8">
+            <button id="spinBtn"
+                class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-lg transform transition active:scale-95 mb-8">
                 開始旋轉！
             </button>
 
@@ -114,10 +124,12 @@
                     <h2 class="font-bold text-slate-700">美食清單</h2>
                     <span id="itemCount" class="text-sm text-slate-400">0 個選項</span>
                 </div>
-                
+
                 <div class="flex gap-2 mb-4">
-                    <input type="text" id="itemInput" placeholder="新增想吃的..." class="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button id="addBtn" class="px-4 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition">新增</button>
+                    <input type="text" id="itemInput" placeholder="新增想吃的..."
+                        class="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button id="addBtn"
+                        class="px-4 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition">新增</button>
                 </div>
 
                 <div id="itemList" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
@@ -133,7 +145,8 @@
             <div class="text-indigo-600 text-6xl mb-4">🍱</div>
             <h3 class="text-xl text-slate-500 mb-2">恭喜選中</h3>
             <div id="winnerName" class="text-3xl font-bold text-slate-800 mb-6"></div>
-            <button id="closeBtn" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700">太棒了，就吃這個！</button>
+            <button id="closeBtn"
+                class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700">太棒了，就吃這個！</button>
         </div>
     </div>
 
@@ -141,7 +154,7 @@
         const defaultOptions = ["滷肉飯", "便利商店", "乾麵", "水餃", "漢堡", "義大利麵", "壽司", "燒臘便當", "火鍋", "涼麵"];
         let options = [...defaultOptions];
         const colors = ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b", "#10b981", "#06b6d4", "#3b82f6", "#64748b", "#a855f7"];
-        
+
         let currentRotation = 0;
         let isSpinning = false;
 
@@ -158,13 +171,13 @@
         function initWheel() {
             wheel.innerHTML = '';
             const sliceAngle = 360 / options.length;
-            
+
             options.forEach((opt, i) => {
                 const segment = document.createElement('div');
                 segment.className = 'segment';
                 segment.style.backgroundColor = colors[i % colors.length];
                 segment.style.transform = `rotate(${i * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
-                
+
                 // Add text with counter-skew and rotation to fix readability
                 const textSpan = document.createElement('span');
                 textSpan.innerText = opt;
@@ -182,7 +195,7 @@
         function renderList() {
             itemList.innerHTML = '';
             itemCount.innerText = `${options.length} 個選項`;
-            
+
             options.forEach((opt, i) => {
                 const div = document.createElement('div');
                 div.className = 'flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100 group';
@@ -236,7 +249,7 @@
 
         spinBtn.onclick = () => {
             if (isSpinning) return;
-            
+
             isSpinning = true;
             spinBtn.disabled = true;
             spinBtn.classList.add('opacity-50');
@@ -244,14 +257,14 @@
             const extraSpins = 5 + Math.random() * 5; // 5 to 10 full circles
             const randomDegree = Math.floor(Math.random() * 360);
             currentRotation += (extraSpins * 360) + randomDegree;
-            
+
             wheel.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
                 spinBtn.disabled = false;
                 spinBtn.classList.remove('opacity-50');
-                
+
                 // Calculate which item is at the top (0 degrees)
                 // Normalize rotation to 0-359
                 const actualDegree = (currentRotation % 360);
@@ -259,7 +272,7 @@
                 // The needle is at 0 deg, we need to find what landed there
                 // Because the wheel rotates clockwise, we subtract from 360
                 const index = Math.floor(((360 - actualDegree % 360) % 360) / sliceAngle);
-                
+
                 showResult(options[index]);
             }, 4000);
         };
@@ -275,10 +288,11 @@
         };
 
         addBtn.onclick = addOption;
-        itemInput.onkeypress = (e) => { if(e.key === 'Enter') addOption(); };
+        itemInput.onkeypress = (e) => { if (e.key === 'Enter') addOption(); };
 
         // Start
         initWheel();
     </script>
 </body>
+
 </html>
