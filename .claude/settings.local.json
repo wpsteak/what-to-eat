@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/pin/Code/workshop/what-to-eat -type d -not -path */.*)"
+    ]
+  }
+}
